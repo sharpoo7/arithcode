@@ -109,6 +109,9 @@
 		<Unit filename="/home/hoo/workspace/arithcode/src/ac.h">
 			<Option target="example"/>
 		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/src/std_arithcode.h">
+			<Option target="example"/>
+		</Unit>
 		<Unit filename="/home/hoo/workspace/arithcode/src/stream.c">
 			<Option target="example"/>
 		</Unit>

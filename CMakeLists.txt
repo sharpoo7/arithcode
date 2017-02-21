@@ -35,7 +35,6 @@ include_directories(.)
 file(GLOB SOURCES src/*.h src/*.c)
 add_executable(example app/main.cc ${SOURCES})
 
-
 ###############################################################################
 #  Testing
 ###############################################################################
