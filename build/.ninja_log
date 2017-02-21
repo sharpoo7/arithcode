@@ -1,0 +1,6 @@
+# ninja log v5
+3	83	0	CMakeFiles/example.dir/src/stream.c.o	cf8467ead96010ab
+2	155	0	CMakeFiles/example.dir/src/ac.c.o	651c75e4e3854041
+0	151	0	CMakeFiles/example.dir/src/ac.c.o	651c75e4e3854041
+1	340	0	CMakeFiles/example.dir/app/main.cc.o	d27615536717ee80
+340	381	0	example	24689da4363c6dc3

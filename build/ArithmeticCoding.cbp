@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ArithmeticCoding"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\doc\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v all"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v edit_cache"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v rebuild_cache"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="apidocs">
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v apidocs"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="example">
+				<Option output="/home/hoo/workspace/arithcode/build/example" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/hoo/workspace/arithcode/src"/>
+					<Add directory="/home/hoo/workspace/arithcode/."/>
+					<Add directory="/usr/include/c++/4.8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/4.8"/>
+					<Add directory="/usr/include/c++/4.8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v example"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="example/fast">
+				<Option output="/home/hoo/workspace/arithcode/build/example" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/hoo/workspace/arithcode/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/hoo/workspace/arithcode/src"/>
+					<Add directory="/home/hoo/workspace/arithcode/."/>
+					<Add directory="/usr/include/c++/4.8"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/4.8"/>
+					<Add directory="/usr/include/c++/4.8/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/ninja -v example/fast"/>
+					<CompileFile command="/usr/bin/ninja -v &quot;$file&quot;"/>
+					<Clean command="/usr/bin/ninja -v clean"/>
+					<DistClean command="/usr/bin/ninja -v clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/hoo/workspace/arithcode/app/main.cc">
+			<Option target="example"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/src/ac.c">
+			<Option target="example"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/src/ac.h">
+			<Option target="example"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/src/stream.c">
+			<Option target="example"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/src/stream.h">
+			<Option target="example"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/hoo/workspace/arithcode/doc/Doxyfile.in">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

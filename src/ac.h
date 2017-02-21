@@ -41,6 +41,7 @@ typedef float     real;
  */
 
 void cdf_build(real **cdf, size_t *nsym, u32 *s, size_t ns);
+void cdf_build_8u(real **cdf, size_t *M, u8 *s, size_t N);
 
 /// \defgroup Encoding Encoding functions
 /// @{

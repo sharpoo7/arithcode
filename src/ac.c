@@ -1,22 +1,22 @@
-/**   
+/**
    \file
    Arithmetic coding implementation
 
-   \section Introduction 
-  
+   \section Introduction
+
    Implementation after Amir Said's Algorithm 22-29[1].
-  
-   Following Amir's notation, 
-  
+
+   Following Amir's notation,
+
     D is the number of symbols in the output alphabet.
     P is the number of output symbols in the active block (see Eq 2.3 in [1]).
       Need 2P for multiplication.
-  
+
    So, have 2P*bitsof(D) = 64 (widest integer type I'll have access to)
-  
+
    The smallest codable probabililty is p = D/D^P = D^(1-P).  Want to minimize
    p wrt constraint. Enumerating the possibilities:
-  
+
    \verbatim
      bitsof(D)  P                D^(1-P)
      --------   --               -------
@@ -25,33 +25,33 @@
      16         2                 2^-16
      32         1                 1
    \endverbatim
-   
+
    One can see there's a efficiency verses precision trade off here (higher D
    means less renormalizing and so better efficiency).
-  
+
    \section Notes
    - Need to test more!
      - u1,u4,u16 encoding/decoding not tested
      - random sequences etc...
      - empty stream?
      - streams that generte big carries
-  
+
    - might be nice to add an interface that will encode chunks.  That is,
      you feed it symbols one at a time and every once in a while, when
-     bits get settled, it outputs some bytes.  
-     For streaming encoders, this would mean the intermediate buffer 
+     bits get settled, it outputs some bytes.
+     For streaming encoders, this would mean the intermediate buffer
      wouldn't have to be quite as big, although worst case that
      buffer is the size of the entire output message.
-  
+
    - A check-symbol could be encoded in a manner similar to the END-OF-MESSAGE
      symbol.  For example, code the symbol every 2^x symbols and assign it a
      probability of 2^-x.  If the decoder doesn't recieve one of these at the
-     expected interval, then there was some error.  For short messages, 
+     expected interval, then there was some error.  For short messages,
      it wouldn't require the insertion of such a symbol; only failure to show
      up after N symbols would indicate an error.  It would take space
-     on the interval, and so would have a negative impact on compression and 
+     on the interval, and so would have a negative impact on compression and
      minimum probability.
-     
+
    \section References
    \verbatim
    [1]:  Said, A. "Introduction to Arithmetic Coding - Theory and Practice."
@@ -63,7 +63,7 @@
 /** \mainpage Arithmetic Coding
 
     \section Contents
-    
+
     - \ref Example
     - \ref Features
     - \ref History
@@ -88,7 +88,7 @@
       free(out);
       free(cdf);
     }
-    \endcode      
+    \endcode
 
     \section Features
 
@@ -113,7 +113,7 @@
 
     I wrote this in order to learn about arithmetic coding.  The end goal was to get to the point where I had an adaptive
     encoder/decoder that could compress markov chains.  I got a little distracted along the way by trying to encode to
-    a variable symbol alphabet.  Variable symbol encoding alphabets are fun because you can encode to non-whitespace ASCII 
+    a variable symbol alphabet.  Variable symbol encoding alphabets are fun because you can encode to non-whitespace ASCII
     characters (94 symbols) and that means the encoded message can be embeded in a text file format.
 
     Arithmetic coding is a computationally expensive coding method.  I've done nothing to address this problem; I've probably
@@ -121,7 +121,7 @@
 
     To learn more about arithmetic coding see this excelent reference:
     \verbatim
-    Said, A. “Introduction to Arithmetic Coding - Theory and Practice.” 
+    Said, A. “Introduction to Arithmetic Coding - Theory and Practice.”
          Hewlett Packard Laboratories Report: 2004–2076.
          www.hpl.hp.com/techreports/2004/HPL-2004-76.pdf
    \endverbatim
@@ -150,8 +150,8 @@
     \code
     encode_<TDst>_<TSrc>(void **out, size_t *nout, uint8_t *in, size_t nin, float *cdf, size_t nsym);
     \endcode
-    where \a TDst and \a TSrc are the output and input types, respectively.  The output buffer, \a *out, 
-    can be an heap-allocated buffer; it's capacity in bytes should be passed as \a *nout.  If \a *out is 
+    where \a TDst and \a TSrc are the output and input types, respectively.  The output buffer, \a *out,
+    can be an heap-allocated buffer; it's capacity in bytes should be passed as \a *nout.  If \a *out is
     not large enough (or NULL), it will be reallocated.  The new capacity will be returned in \a *nout.
 
     - encode_u1_u8()
@@ -184,8 +184,8 @@
     \code
     decode_<TDst>_<TSrc>(void **out, size_t *nout, uint8_t *in, size_t nin, float *cdf, size_t nsym);
     \endcode
-    where \a TDst and \a TSrc are the output and input types, respectively.  The output buffer, \a *out, 
-    can be an heap-allocated buffer; it's capacity in bytes should be passed as \a *nout.  If \a *out is 
+    where \a TDst and \a TSrc are the output and input types, respectively.  The output buffer, \a *out,
+    can be an heap-allocated buffer; it's capacity in bytes should be passed as \a *nout.  If \a *out is
     not large enough (or NULL), it will be reallocated.  The new capacity will be returned in \a *nout.
 
     This is basically identical to the encode functions, but here "output" refers to the decoded message
@@ -212,7 +212,7 @@
     - vdecode_u8()
     - vdecode_u16()
     - vdecode_u32()
-    - vdecode_u64() 
+    - vdecode_u64()
 
     \author Nathan Clack <https://github.com/nclack>
 */
@@ -237,8 +237,8 @@ typedef float     real;
 
 #define SAFE_FREE(e) if(e) { free(e); (e)=NULL; }
 
-/** 
-    \defgroup ArithmeticCoding Arithmetic Coding Internals    
+/**
+    \defgroup ArithmeticCoding Arithmetic Coding Internals
     @{
  */
 
@@ -263,8 +263,8 @@ typedef struct _state_t
 
 /// A helper function that initializes the parts of the \ref state_t structure that do not depend on stream type.
 static void init_common(state_t *state,u8 *buf,size_t nbuf,real *cdf,size_t nsym)
-{ 
-  
+{
+
   state->l = (1ULL<<state->shift)-1; // e.g. 2^32-1 for u64
   state->mask = state->l;            // for modding a u64 to u32 with &
 
@@ -328,7 +328,7 @@ static  void free_internal(state_t *state)
 
 //
 // Build CDF
-// 
+//
 
 /// Array maximum.  \returns the maximum value in a u32 array, \a s, with \a n elements.
 static u32 maximum(u32 *s, size_t n)
@@ -338,7 +338,14 @@ static u32 maximum(u32 *s, size_t n)
   return max;
 }
 
-/** 
+static u32 maximum_8u(u8 *s, size_t n)
+{ u8 max=0;
+  while(n--)
+    max = ( s[n] > max)? s[n] : max;
+  return (u32)max;
+}
+
+/**
 Build a cumulative distribution function (CDF) from an input u32 array.
 
 As provided, this really just serves as a reference implementation showing how
@@ -364,15 +371,36 @@ This implies:
 */
 void cdf_build(real **cdf, size_t *M, u32 *s, size_t N)
 { size_t i,nbytes;
-  *M = maximum(s,N)+1; 
+  *M = maximum(s,N)+1;
   TRY( *cdf=realloc(*cdf,nbytes=sizeof(real)*(M[0]+1)) ); // cdf has M+1 elements
   memset(*cdf,0,nbytes);
   for(i=0;i<     N;++i) cdf[0][s[i]]++;                   // histogram
-  for(i=0;i<M[0]  ;++i) cdf[0][s[i]]/=(real)N;            // norm
+  for(i=0;i<M[0]  ;++i) cdf[0][i]/=(real)N;            // norm
   for(i=1;i<M[0]  ;++i) cdf[0][i]   += cdf[0][i-1];       // cumsum
   for(i=M[0]+1;i>0;--i) cdf[0][i]    = cdf[0][i-1];       // move
   cdf[0][0] = 0.0;
-    
+
+#ifdef DEBUG
+  TRY( fabs(cdf[M[0]+1]-1.0) < 1e-6 );
+#endif
+  return;
+Error:
+  abort();
+}
+
+void cdf_build_8u(real **cdf, size_t *M, u8 *s, size_t N)
+{ size_t i,nbytes;
+  *M = maximum_8u(s,N)+1;
+    size_t sz = *M;
+  TRY( *cdf=realloc(*cdf,nbytes=sizeof(real)*(M[0]+1)) ); // cdf has M+1 elements
+  memset(*cdf,0,nbytes);
+  real* p = *cdf;
+  for(i=0;i<     N;++i) p[s[i]]+=1.0f;                   // histogram
+  for(i=0;i<sz  ;++i) p[i]/=(real)N;            // norm
+  for(i=1;i<sz  ;++i) p[i]   += p[i-1];       // cumsum
+  for(i=sz+1;i>0;--i) p[i]    = p[i-1];       // move
+  p[0] = 0.0;
+
 #ifdef DEBUG
   TRY( fabs(cdf[M[0]+1]-1.0) < 1e-6 );
 #endif
@@ -600,11 +628,11 @@ void sync(stream_t *dest, stream_t *src)
   dest->nbytes = src->nbytes;
 }
 void vdecode1(u8 **out, size_t *nout, u8 *in, size_t nin, real *cdf, size_t nsym, real *tcdf, size_t tsym)
-{ state_t d0,e1;                                   
-  stream_t d={0};                              
+{ state_t d0,e1;
+  stream_t d={0};
   int isend=0;
   u64 v0;
-  attach(&d,*out,*nout);          
+  attach(&d,*out,*nout);
   init_u8(&d0,in,nin,tcdf,tsym);            // the tcdf decode
   init_u8(&e1, 0,  0,tcdf,tsym);            // the tcdf encode - used to check for end symbol
 
